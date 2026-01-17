@@ -15,4 +15,5 @@ This project uses a specs-driven loop for learning and implementation, constrain
 5. Validate the plan with the user.
 6. Do the work iteratively and ensure tests pass.
 7. Commit the work if everything passes.
-8. Move to the next spec and repeat the loop.
+8. When a spec's DoD is complete, check off the related item in `specs/plan.md`.
+9. Move to the next spec and repeat the loop.
