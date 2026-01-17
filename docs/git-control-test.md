@@ -29,6 +29,11 @@ Script alternative:
 8. Create a PR via `create_pull_request`.
 
 ## Example tool calls
+Run a git command:
+```
+run_git {"args": ["status", "-sb"]}
+```
+
 Fetch latest changes:
 ```
 fetch {}

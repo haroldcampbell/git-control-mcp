@@ -9,6 +9,49 @@ from typing import Iterable, Sequence
 
 logger = logging.getLogger(__name__)
 
+_ALLOWED_RUN_GIT_SUBCOMMANDS = {
+    "add",
+    "branch",
+    "checkout",
+    "cherry-pick",
+    "clean",
+    "commit",
+    "config",
+    "diff",
+    "fetch",
+    "grep",
+    "log",
+    "merge",
+    "mv",
+    "pull",
+    "push",
+    "rebase",
+    "reflog",
+    "remote",
+    "reset",
+    "restore",
+    "rev-parse",
+    "rm",
+    "show",
+    "status",
+    "stash",
+    "switch",
+    "tag",
+}
+
+_DESTRUCTIVE_RUN_GIT_SUBCOMMANDS = {
+    "clean",
+    "commit",
+    "merge",
+    "rebase",
+    "reset",
+    "rm",
+}
+
+_DESTRUCTIVE_WARNING = (
+    "WARNING: Destructive operation requested. Ensure you have backups or commits before proceeding."
+)
+
 @dataclass(frozen=True)
 class CommandResult:
     stdout: str
@@ -271,3 +314,31 @@ def push_branch(
     command.extend([remote, branch])
     result = _run_command(command, cwd=repo_root)
     return _format_result(result)
+
+
+def run_git(
+    args: Sequence[str],
+    repo_path: str | None = None,
+) -> str:
+    """Run an allowed git subcommand with arguments.
+
+    WARNING: Destructive operations can discard or rewrite history.
+
+    Args:
+        args: Git arguments, starting with the subcommand (e.g., ["status", "-sb"]).
+        repo_path: Optional path within the repo to target.
+    """
+    if not args:
+        raise ValueError("args must include a git subcommand")
+
+    subcommand = str(args[0])
+    if subcommand not in _ALLOWED_RUN_GIT_SUBCOMMANDS:
+        allowed = ", ".join(sorted(_ALLOWED_RUN_GIT_SUBCOMMANDS))
+        raise ValueError(f"Subcommand '{subcommand}' is not allowed. Allowed: {allowed}")
+
+    repo_root = _resolve_repo_root(repo_path)
+    result = _run_command(["git", "-C", str(repo_root), *args], cwd=repo_root)
+    output = _format_result(result)
+    if subcommand in _DESTRUCTIVE_RUN_GIT_SUBCOMMANDS:
+        return f"{_DESTRUCTIVE_WARNING}\n{output}".strip()
+    return output

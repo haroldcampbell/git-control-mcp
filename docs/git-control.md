@@ -14,6 +14,20 @@ Script alternative:
 ```
 
 ## Tools
+### run_git
+Runs an allowlisted git subcommand with arguments.
+
+WARNING: Destructive operations can discard or rewrite history.
+
+Arguments:
+- `args`: list of git arguments, starting with the subcommand (example: `["status", "-sb"]`)
+- `repo_path`: optional path within the repo to infer the git root
+
+Allowed subcommands:
+`add`, `branch`, `checkout`, `cherry-pick`, `clean`, `commit`, `config`, `diff`, `fetch`, `grep`,
+`log`, `merge`, `mv`, `pull`, `push`, `rebase`, `reflog`, `remote`, `reset`, `restore`,
+`rev-parse`, `rm`, `show`, `status`, `stash`, `switch`, `tag`
+
 ### stage_files
 Stages a list of files in the target repo.
 
