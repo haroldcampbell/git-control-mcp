@@ -53,33 +53,59 @@ mcp = FastMCP("git-control")
 
 
 @mcp.tool()
-async def stage_files(files: list[str], repo_path: str | None = None) -> str:
-    logger.info("Tool stage_files called. files=%s repo_path=%s", files, repo_path)
-    result = tools.stage_files(files=files, repo_path=repo_path)
+async def stage_files(
+    files: list[str],
+    repo_path: str | None = None,
+    extra_args: list[str] | None = None,
+) -> str:
+    logger.info("Tool stage_files called. files=%s repo_path=%s extra_args=%s", files, repo_path, extra_args)
+    result = tools.stage_files(files=files, repo_path=repo_path, extra_args=extra_args)
     logger.info("Tool stage_files completed.")
     return result
 
 
 @mcp.tool()
-async def stage_deletions(files: list[str], repo_path: str | None = None) -> str:
-    logger.info("Tool stage_deletions called. files=%s repo_path=%s", files, repo_path)
-    result = tools.stage_deletions(files=files, repo_path=repo_path)
+async def stage_deletions(
+    files: list[str],
+    repo_path: str | None = None,
+    extra_args: list[str] | None = None,
+) -> str:
+    logger.info(
+        "Tool stage_deletions called. files=%s repo_path=%s extra_args=%s",
+        files,
+        repo_path,
+        extra_args,
+    )
+    result = tools.stage_deletions(files=files, repo_path=repo_path, extra_args=extra_args)
     logger.info("Tool stage_deletions completed.")
     return result
 
 
 @mcp.tool()
-async def commit_changes(message: str, repo_path: str | None = None) -> str:
-    logger.info("Tool commit_changes called. repo_path=%s message_len=%s", repo_path, len(message))
-    result = tools.commit_changes(message=message, repo_path=repo_path)
+async def commit_changes(
+    message: str,
+    repo_path: str | None = None,
+    extra_args: list[str] | None = None,
+) -> str:
+    logger.info(
+        "Tool commit_changes called. repo_path=%s message_len=%s extra_args=%s",
+        repo_path,
+        len(message),
+        extra_args,
+    )
+    result = tools.commit_changes(message=message, repo_path=repo_path, extra_args=extra_args)
     logger.info("Tool commit_changes completed.")
     return result
 
 
 @mcp.tool()
-async def fetch(prune: bool = False, repo_path: str | None = None) -> str:
-    logger.info("Tool fetch called. prune=%s repo_path=%s", prune, repo_path)
-    result = tools.fetch(prune=prune, repo_path=repo_path)
+async def fetch(
+    prune: bool = False,
+    repo_path: str | None = None,
+    extra_args: list[str] | None = None,
+) -> str:
+    logger.info("Tool fetch called. repo_path=%s prune=%s extra_args=%s", repo_path, prune, extra_args)
+    result = tools.fetch(prune=prune, repo_path=repo_path, extra_args=extra_args)
     logger.info("Tool fetch completed.")
     return result
 
@@ -92,15 +118,17 @@ async def create_pull_request(
     title: str | None = None,
     body: str | None = None,
     draft: bool = False,
+    extra_args: list[str] | None = None,
 ) -> str:
     logger.info(
-        "Tool create_pull_request called. repo_path=%s base=%s head=%s title=%s body_len=%s draft=%s",
+        "Tool create_pull_request called. repo_path=%s base=%s head=%s title=%s body_len=%s draft=%s extra_args=%s",
         repo_path,
         base,
         head,
         title,
         len(body) if body is not None else None,
         draft,
+        extra_args,
     )
     result = tools.create_pull_request(
         repo_path=repo_path,
@@ -109,23 +137,59 @@ async def create_pull_request(
         title=title,
         body=body,
         draft=draft,
+        extra_args=extra_args,
     )
     logger.info("Tool create_pull_request completed.")
     return result
 
 
 @mcp.tool()
-async def checkout_branch(branch: str, repo_path: str | None = None) -> str:
-    logger.info("Tool checkout_branch called. repo_path=%s branch=%s", repo_path, branch)
-    result = tools.checkout_branch(branch=branch, repo_path=repo_path)
+async def checkout_branch(
+    branch: str,
+    repo_path: str | None = None,
+    start_point: str | None = None,
+    extra_args: list[str] | None = None,
+) -> str:
+    logger.info(
+        "Tool checkout_branch called. repo_path=%s branch=%s start_point=%s extra_args=%s",
+        repo_path,
+        branch,
+        start_point,
+        extra_args,
+    )
+    result = tools.checkout_branch(
+        branch=branch,
+        repo_path=repo_path,
+        start_point=start_point,
+        extra_args=extra_args,
+    )
     logger.info("Tool checkout_branch completed.")
     return result
 
 
 @mcp.tool()
-async def push_branch(branch: str, repo_path: str | None = None) -> str:
-    logger.info("Tool push_branch called. repo_path=%s branch=%s", repo_path, branch)
-    result = tools.push_branch(branch=branch, repo_path=repo_path)
+async def push_branch(
+    branch: str,
+    repo_path: str | None = None,
+    remote: str = "origin",
+    set_upstream: bool = True,
+    extra_args: list[str] | None = None,
+) -> str:
+    logger.info(
+        "Tool push_branch called. repo_path=%s branch=%s remote=%s set_upstream=%s extra_args=%s",
+        repo_path,
+        branch,
+        remote,
+        set_upstream,
+        extra_args,
+    )
+    result = tools.push_branch(
+        branch=branch,
+        repo_path=repo_path,
+        remote=remote,
+        set_upstream=set_upstream,
+        extra_args=extra_args,
+    )
     logger.info("Tool push_branch completed.")
     return result
 

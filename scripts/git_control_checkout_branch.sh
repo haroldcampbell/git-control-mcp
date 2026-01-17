@@ -12,10 +12,20 @@ from mcp.client.stdio import stdio_client
 
 async def main() -> None:
     root = Path.cwd()
-    if len(sys.argv) < 2:
-        raise SystemExit("Usage: git_control_checkout_branch.sh <branch>")
+    args = sys.argv[1:]
+    extra_args: list[str] = []
+    if "--" in args:
+        split_index = args.index("--")
+        extra_args = args[split_index + 1 :]
+        args = args[:split_index]
 
-    branch = sys.argv[1]
+    if len(args) < 1:
+        raise SystemExit("Usage: git_control_checkout_branch.sh <branch> [start-point] [-- <extra args>]")
+
+    branch = args[0]
+    start_point = args[1] if len(args) > 1 else None
+    if len(args) > 2:
+        raise SystemExit("Usage: git_control_checkout_branch.sh <branch> [start-point] [-- <extra args>]")
     params = StdioServerParameters(
         command=sys.executable,
         args=["-m", "git_control.server"],
@@ -27,7 +37,11 @@ async def main() -> None:
             await session.initialize()
             result = await session.call_tool(
                 "checkout_branch",
-                arguments={"branch": branch},
+                arguments={
+                    "branch": branch,
+                    "start_point": start_point,
+                    "extra_args": extra_args or None,
+                },
             )
             print(result)
 

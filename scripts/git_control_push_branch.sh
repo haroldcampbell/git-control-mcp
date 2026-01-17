@@ -20,7 +20,28 @@ def current_branch() -> str:
 
 async def main() -> None:
     root = Path.cwd()
-    branch = sys.argv[1] if len(sys.argv) > 1 else current_branch()
+    args = sys.argv[1:]
+    extra_args: list[str] = []
+    if "--" in args:
+        split_index = args.index("--")
+        extra_args = args[split_index + 1 :]
+        args = args[:split_index]
+
+    remote = "origin"
+    set_upstream = True
+    if "--no-upstream" in args:
+        set_upstream = False
+        args = [arg for arg in args if arg != "--no-upstream"]
+    if "--remote" in args:
+        remote_index = args.index("--remote")
+        if remote_index + 1 >= len(args):
+            raise SystemExit("Usage: git_control_push_branch.sh [branch] [--remote name] [--no-upstream] [-- <extra args>]")
+        remote = args[remote_index + 1]
+        args = args[:remote_index] + args[remote_index + 2 :]
+
+    branch = args[0] if args else current_branch()
+    if len(args) > 1:
+        raise SystemExit("Usage: git_control_push_branch.sh [branch] [--remote name] [--no-upstream] [-- <extra args>]")
 
     params = StdioServerParameters(
         command=sys.executable,
@@ -33,7 +54,12 @@ async def main() -> None:
             await session.initialize()
             result = await session.call_tool(
                 "push_branch",
-                arguments={"branch": branch},
+                arguments={
+                    "branch": branch,
+                    "remote": remote,
+                    "set_upstream": set_upstream,
+                    "extra_args": extra_args or None,
+                },
             )
             print(result)
 

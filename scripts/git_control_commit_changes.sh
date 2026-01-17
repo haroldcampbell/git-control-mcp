@@ -12,6 +12,16 @@ from mcp.client.stdio import stdio_client
 
 async def main() -> None:
     root = Path.cwd()
+    args = sys.argv[1:]
+    extra_args: list[str] = []
+    if "--" in args:
+        split_index = args.index("--")
+        extra_args = args[split_index + 1 :]
+        args = args[:split_index]
+
+    message = args[0] if args else "docs: update README"
+    if len(args) > 1:
+        raise SystemExit("Usage: git_control_commit_changes.sh [message] [-- <extra args>]")
     params = StdioServerParameters(
         command=sys.executable,
         args=["-m", "git_control.server"],
@@ -23,7 +33,7 @@ async def main() -> None:
             await session.initialize()
             result = await session.call_tool(
                 "commit_changes",
-                arguments={"message": "docs: update README"},
+                arguments={"message": message, "extra_args": extra_args or None},
             )
             print(result)
 

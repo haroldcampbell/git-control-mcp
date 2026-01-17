@@ -36,37 +36,37 @@ fetch {}
 
 Fetch and prune removed remote branches:
 ```
-fetch {"prune": true}
+fetch {"prune": true, "extra_args": ["--tags"]}
 ```
 
 Create a branch:
 ```
-checkout_branch {"branch": "feature/test-pr"}
+checkout_branch {"branch": "feature/test-pr", "start_point": "origin/main"}
 ```
 
 Stage a file:
 ```
-stage_files {"files": ["README.md"]}
+stage_files {"files": ["README.md"], "extra_args": ["--intent-to-add"]}
 ```
 
 Stage deletions:
 ```
-stage_deletions {"files": ["README.md"]}
+stage_deletions {"files": ["README.md"], "extra_args": ["--intent-to-add"]}
 ```
 
 Commit changes:
 ```
-commit_changes {"message": "docs: update README"}
+commit_changes {"message": "docs: update README", "extra_args": ["--signoff"]}
 ```
 
 Push branch:
 ```
-push_branch {"branch": "feature/test-pr"}
+push_branch {"branch": "feature/test-pr", "extra_args": ["--force-with-lease"]}
 ```
 
 Create a PR (explicit title/body):
 ```
-create_pull_request {"title": "Docs update", "body": "Update README content"}
+create_pull_request {"title": "Docs update", "body": "Update README content", "extra_args": ["--label", "docs"]}
 ```
 
 Create a PR (auto-fill from commits):
