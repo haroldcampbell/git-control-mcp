@@ -42,6 +42,7 @@ Notes:
 Fetches updates from the default remote in the target repo.
 
 Arguments:
+- `prune`: optional boolean to prune removed remote branches (default: false)
 - `repo_path`: optional path within the repo to infer the git root
 
 ### create_pull_request

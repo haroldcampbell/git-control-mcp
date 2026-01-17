@@ -19,7 +19,7 @@ Script alternative:
 - The repo has at least one file you can safely modify.
 
 ## Test plan
-1. Fetch latest changes via `fetch`.
+1. Fetch latest changes via `fetch` (optionally with `prune`).
 2. Create a new branch via `checkout_branch`.
 3. Edit a file (example: append a line to `README.md`).
 4. Stage the change via `stage_files`.
@@ -32,6 +32,11 @@ Script alternative:
 Fetch latest changes:
 ```
 fetch {}
+```
+
+Fetch and prune removed remote branches:
+```
+fetch {"prune": true}
 ```
 
 Create a branch:

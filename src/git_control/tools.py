@@ -119,14 +119,18 @@ def commit_changes(message: str, repo_path: str | None = None) -> str:
     return _format_result(result)
 
 
-def fetch(repo_path: str | None = None) -> str:
+def fetch(prune: bool = False, repo_path: str | None = None) -> str:
     """Fetch updates from the default remote in a git repo.
 
     Args:
+        prune: Whether to prune removed remote branches.
         repo_path: Optional path within the repo to target.
     """
     repo_root = _resolve_repo_root(repo_path)
-    result = _run_command(["git", "-C", str(repo_root), "fetch"], cwd=repo_root)
+    args = ["git", "-C", str(repo_root), "fetch"]
+    if prune:
+        args.append("--prune")
+    result = _run_command(args, cwd=repo_root)
     return _format_result(result) or "Fetch completed."
 
 

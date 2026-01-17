@@ -9,11 +9,12 @@ This project uses a specs-driven loop for learning and implementation, constrain
 
 ## Steps
 1. Choose a spec to work on.
-2. Ensure you are on a clean branch.
+2. Create a new branch for the work.
 3. Check relevant ADRs and confirm constraints.
 4. Make a plan to implement the spec.
 5. Validate the plan with the user.
 6. Do the work iteratively and ensure tests pass.
-7. Commit the work if everything passes.
+7. Stage and commit the work on the new branch if everything passes.
 8. When a spec's DoD is complete, check off the related item in `specs/plan.md`.
-9. Move to the next spec and repeat the loop.
+9. Push the branch and open a PR.
+10. Move to the next spec and repeat the loop.
