@@ -3,8 +3,15 @@
 ## Status
 Accepted
 
+## Date
+2026-01-17
+
 ## Context
 We want a consistent, repeatable learning and delivery loop for MCP server/client work.
+
+## Decision Drivers
+- Ensure work is traceable to explicit specs
+- Keep constraints discoverable and stable
 
 ## Decision
 Adopt a specs-driven workflow with:
