@@ -11,3 +11,5 @@
 - [x] S007: Stage deletions tool
 - [x] S008: Branch checkout and push tools
 - [x] S009: Git fetch tool
+- [x] S010: Fetch prune option
+- [x] S011: Branch, commit, push, and PR workflow

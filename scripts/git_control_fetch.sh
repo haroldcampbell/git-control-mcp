@@ -12,6 +12,7 @@ from mcp.client.stdio import stdio_client
 
 async def main() -> None:
     root = Path.cwd()
+    prune = "--prune" in sys.argv[1:]
     params = StdioServerParameters(
         command=sys.executable,
         args=["-m", "git_control.server"],
@@ -21,7 +22,7 @@ async def main() -> None:
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()
-            result = await session.call_tool("fetch", arguments={})
+            result = await session.call_tool("fetch", arguments={"prune": prune})
             print(result)
 
 
