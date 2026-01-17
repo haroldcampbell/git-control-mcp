@@ -100,6 +100,7 @@ def test_commit_changes_commits_staged_changes(tmp_path: Path) -> None:
 
 def test_checkout_branch_creates_and_switches(tmp_path: Path) -> None:
     repo = init_repo(tmp_path / "repo")
+    commit_file(repo, "base.txt", "base", "base commit")
     tools.checkout_branch("feature/test", repo_path=str(repo))
 
     branch = run_git(repo, "rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
