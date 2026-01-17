@@ -8,3 +8,4 @@
 - [x] S004: ADR review
 - [x] S005: Git control MCP server
 - [x] S006: Git control MCP server test
+- [x] S007: Stage deletions tool

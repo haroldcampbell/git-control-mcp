@@ -75,6 +75,22 @@ def stage_files(files: Iterable[str], repo_path: str | None = None) -> str:
     return _format_result(result) or "Files staged."
 
 
+def stage_deletions(files: Iterable[str], repo_path: str | None = None) -> str:
+    """Stage deletions in a git repo.
+
+    Args:
+        files: Iterable of file or directory paths relative to the repo root.
+        repo_path: Optional path within the repo to target.
+    """
+    file_list = [str(path) for path in files]
+    if not file_list:
+        raise ValueError("files must include at least one path")
+
+    repo_root = _resolve_repo_root(repo_path)
+    result = _run_command(["git", "-C", str(repo_root), "add", "-u", "--", *file_list], cwd=repo_root)
+    return _format_result(result) or "Deletions staged."
+
+
 def commit_changes(message: str, repo_path: str | None = None) -> str:
     """Commit changes in a git repo.
 

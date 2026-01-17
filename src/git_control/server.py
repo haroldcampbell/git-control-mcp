@@ -41,6 +41,14 @@ async def stage_files(files: list[str], repo_path: str | None = None) -> str:
 
 
 @mcp.tool()
+async def stage_deletions(files: list[str], repo_path: str | None = None) -> str:
+    logger.info("Tool stage_deletions called. files=%s repo_path=%s", files, repo_path)
+    result = tools.stage_deletions(files=files, repo_path=repo_path)
+    logger.info("Tool stage_deletions completed.")
+    return result
+
+
+@mcp.tool()
 async def commit_changes(message: str, repo_path: str | None = None) -> str:
     logger.info("Tool commit_changes called. repo_path=%s message_len=%s", repo_path, len(message))
     result = tools.commit_changes(message=message, repo_path=repo_path)

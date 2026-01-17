@@ -1,6 +1,6 @@
 # Git Control MCP Server Test Plan
 
-This plan validates the git-control MCP server end-to-end: staging, committing, and PR creation.
+This plan validates the git-control MCP server end-to-end: staging, deletion staging, committing, and PR creation.
 
 ## Run from project root
 ```
@@ -21,13 +21,19 @@ Script alternative:
 ## Test plan
 1. Edit a file (example: append a line to `README.md`).
 2. Stage the change via `stage_files`.
-3. Commit the change via `commit_changes`.
-4. Create a PR via `create_pull_request`.
+3. Delete a file and stage the deletion via `stage_deletions`.
+4. Commit the change via `commit_changes`.
+5. Create a PR via `create_pull_request`.
 
 ## Example tool calls
 Stage a file:
 ```
 stage_files {"files": ["README.md"]}
+```
+
+Stage deletions:
+```
+stage_deletions {"files": ["README.md"]}
 ```
 
 Commit changes:
@@ -47,5 +53,6 @@ create_pull_request {}
 
 ## Expected results
 - `stage_files` reports the file staged.
+- `stage_deletions` reports deletions staged.
 - `commit_changes` reports a new commit SHA.
 - `create_pull_request` returns a PR URL from GitHub.
