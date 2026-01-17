@@ -29,7 +29,12 @@ uv run python -m weather.server
 ```
 
 ## Run the client
-Run from `src/` so the `client` package is importable:
+Run from the project root:
+```
+PYTHONPATH=src uv run python -m client.weather_client
+```
+
+If you prefer running from `src/` so the `client` package is importable:
 ```
 cd src
 uv run python -m client.weather_client
@@ -44,3 +49,7 @@ From the project root:
 
 ## Codex CLI
 See `docs/codex-cli.md` for MCP registration and verification steps.
+
+## MCP test example
+See `docs/mcp-test-example.md` for a minimal stdio client that calls `get_forecast`
+and `get_alerts`.
