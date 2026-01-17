@@ -34,7 +34,6 @@ From the project root:
 
 ```
 ./scripts/run_server.sh
-./scripts/run_git_control_server.sh
 ```
 
 ## Run the tests
@@ -52,4 +51,4 @@ See `docs/codex-cli.md` for MCP registration and verification steps.
 
 ## MCP test example
 
-See `docs/mcp-test-example.md` and `docs/git-control-test.md` for git-control verification steps.
+See `docs/git-control-test.md` for git-control verification steps.
