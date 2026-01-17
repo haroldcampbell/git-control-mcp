@@ -41,3 +41,6 @@ From the project root:
 ./scripts/run_server.sh
 ./scripts/run_client.sh
 ```
+
+## Codex CLI
+See `docs/codex-cli.md` for MCP registration and verification steps.
