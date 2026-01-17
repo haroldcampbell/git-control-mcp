@@ -111,6 +111,14 @@ async def fetch(
 
 
 @mcp.tool()
+async def run_git(args: list[str], repo_path: str | None = None) -> str:
+    logger.info("Tool run_git called. repo_path=%s args=%s", repo_path, args)
+    result = tools.run_git(args=args, repo_path=repo_path)
+    logger.info("Tool run_git completed.")
+    return result
+
+
+@mcp.tool()
 async def create_pull_request(
     repo_path: str | None = None,
     base: str | None = None,
