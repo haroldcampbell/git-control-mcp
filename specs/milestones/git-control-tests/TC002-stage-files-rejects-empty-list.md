@@ -10,4 +10,4 @@ Validate `stage_files` rejects an empty file list.
 Prevent silent no-op behavior that could mask missing inputs.
 
 ## DoD checklist
-- [ ] Calling `stage_files([])` raises `ValueError`
+- [x] Calling `stage_files([])` raises `ValueError`

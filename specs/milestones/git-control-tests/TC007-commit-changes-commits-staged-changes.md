@@ -10,5 +10,5 @@ Verify `commit_changes` creates a commit when staged changes exist.
 Ensure commit flow works end-to-end for staged files.
 
 ## DoD checklist
-- [ ] `commit_changes` writes a commit with the provided message
-- [ ] `git log -1` shows the expected subject
+- [x] `commit_changes` writes a commit with the provided message
+- [x] `git log -1` shows the expected subject

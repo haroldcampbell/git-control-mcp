@@ -10,4 +10,4 @@ Validate `run_git` enforces the allowlist of subcommands.
 Prevent unsafe or unsupported git operations.
 
 ## DoD checklist
-- [ ] Calling `run_git(["clone", ...])` raises `ValueError`
+- [x] Calling `run_git(["clone", ...])` raises `ValueError`

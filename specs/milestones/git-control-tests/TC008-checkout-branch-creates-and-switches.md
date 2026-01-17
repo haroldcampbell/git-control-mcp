@@ -10,4 +10,4 @@ Confirm `checkout_branch` creates a new branch and switches HEAD.
 Guarantee branch creation uses validated ref names and switches context.
 
 ## DoD checklist
-- [ ] HEAD reports the new branch name after `checkout_branch`
+- [x] HEAD reports the new branch name after `checkout_branch`

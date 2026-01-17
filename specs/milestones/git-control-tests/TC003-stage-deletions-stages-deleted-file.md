@@ -10,5 +10,5 @@ Confirm `stage_deletions` stages a removal.
 Ensure deletions are captured in the index to prevent accidental loss.
 
 ## DoD checklist
-- [ ] `stage_deletions` returns a success message
-- [ ] `git diff --cached --name-status` includes `D` for the deleted file
+- [x] `stage_deletions` returns a success message
+- [x] `git diff --cached --name-status` includes `D` for the deleted file

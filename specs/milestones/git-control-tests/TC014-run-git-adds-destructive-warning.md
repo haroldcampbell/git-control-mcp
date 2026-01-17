@@ -10,4 +10,4 @@ Verify destructive subcommands return a warning prefix.
 Ensure users are warned before potentially data-destroying operations.
 
 ## DoD checklist
-- [ ] `run_git(["reset", ...])` output starts with warning text
+- [x] `run_git(["reset", ...])` output starts with warning text

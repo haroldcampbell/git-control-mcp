@@ -10,5 +10,5 @@ Ensure title and body are provided together for PR creation.
 Prevent partially specified PRs that could fail in gh.
 
 ## DoD checklist
-- [ ] Title without body raises `ValueError`
-- [ ] Body without title raises `ValueError`
+- [x] Title without body raises `ValueError`
+- [x] Body without title raises `ValueError`

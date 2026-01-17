@@ -10,4 +10,4 @@ Validate `stage_deletions` rejects an empty file list.
 Avoid silent no-op behavior when deletion inputs are missing.
 
 ## DoD checklist
-- [ ] Calling `stage_deletions([])` raises `ValueError`
+- [x] Calling `stage_deletions([])` raises `ValueError`

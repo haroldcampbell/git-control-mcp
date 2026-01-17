@@ -10,4 +10,4 @@ Ensure `checkout_branch` rejects blank branch names.
 Prevent invalid branches that could corrupt git history.
 
 ## DoD checklist
-- [ ] Calling `checkout_branch` with blank branch name raises `ValueError`
+- [x] Calling `checkout_branch` with blank branch name raises `ValueError`
