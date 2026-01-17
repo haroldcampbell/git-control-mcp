@@ -12,12 +12,9 @@ Validate the git-control MCP server tools using the S006 test plan.
     ```
     uv sync
     ```
-2. Register MCP servers in Codex CLI:
+2. Register the MCP server in Codex CLI:
 
     ```
-    codex mcp add weather --env PYTHONPATH=src -- \
-      uv run python -m weather.server
-
     codex mcp add git-control --env PYTHONPATH=src -- \
       uv run python -m git_control.server
     ```
