@@ -1,6 +1,6 @@
 # Git Control MCP Server Test Plan
 
-This plan validates the git-control MCP server end-to-end: branch creation, staging, deletion staging, committing, pushing, and PR creation.
+This plan validates the git-control MCP server end-to-end: fetching, branch creation, staging, deletion staging, committing, pushing, and PR creation.
 
 ## Run from project root
 ```
@@ -19,15 +19,21 @@ Script alternative:
 - The repo has at least one file you can safely modify.
 
 ## Test plan
-1. Create a new branch via `checkout_branch`.
-2. Edit a file (example: append a line to `README.md`).
-3. Stage the change via `stage_files`.
-4. Delete a file and stage the deletion via `stage_deletions`.
-5. Commit the change via `commit_changes`.
-6. Push the branch via `push_branch`.
-7. Create a PR via `create_pull_request`.
+1. Fetch latest changes via `fetch`.
+2. Create a new branch via `checkout_branch`.
+3. Edit a file (example: append a line to `README.md`).
+4. Stage the change via `stage_files`.
+5. Delete a file and stage the deletion via `stage_deletions`.
+6. Commit the change via `commit_changes`.
+7. Push the branch via `push_branch`.
+8. Create a PR via `create_pull_request`.
 
 ## Example tool calls
+Fetch latest changes:
+```
+fetch {}
+```
+
 Create a branch:
 ```
 checkout_branch {"branch": "feature/test-pr"}
@@ -64,6 +70,7 @@ create_pull_request {}
 ```
 
 ## Expected results
+- `fetch` reports remote updates or completes with no changes.
 - `checkout_branch` switches to the new branch.
 - `stage_files` reports the file staged.
 - `stage_deletions` reports deletions staged.

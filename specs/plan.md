@@ -10,3 +10,4 @@
 - [x] S006: Git control MCP server test
 - [x] S007: Stage deletions tool
 - [x] S008: Branch checkout and push tools
+- [x] S009: Git fetch tool

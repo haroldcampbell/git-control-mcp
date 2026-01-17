@@ -119,6 +119,17 @@ def commit_changes(message: str, repo_path: str | None = None) -> str:
     return _format_result(result)
 
 
+def fetch(repo_path: str | None = None) -> str:
+    """Fetch updates from the default remote in a git repo.
+
+    Args:
+        repo_path: Optional path within the repo to target.
+    """
+    repo_root = _resolve_repo_root(repo_path)
+    result = _run_command(["git", "-C", str(repo_root), "fetch"], cwd=repo_root)
+    return _format_result(result) or "Fetch completed."
+
+
 def create_pull_request(
     repo_path: str | None = None,
     base: str | None = None,

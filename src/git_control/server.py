@@ -77,6 +77,14 @@ async def commit_changes(message: str, repo_path: str | None = None) -> str:
 
 
 @mcp.tool()
+async def fetch(repo_path: str | None = None) -> str:
+    logger.info("Tool fetch called. repo_path=%s", repo_path)
+    result = tools.fetch(repo_path=repo_path)
+    logger.info("Tool fetch completed.")
+    return result
+
+
+@mcp.tool()
 async def create_pull_request(
     repo_path: str | None = None,
     base: str | None = None,
