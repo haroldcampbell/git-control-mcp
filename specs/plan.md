@@ -15,3 +15,4 @@
 - [x] S011: Branch, commit, push, and PR workflow
 - [x] S012: Tool argument passthrough
 - [x] S013: run_git tool
+- [ ] S014: Git control regression test suite
