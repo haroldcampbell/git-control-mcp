@@ -12,6 +12,17 @@ from mcp.client.stdio import stdio_client
 
 async def main() -> None:
     root = Path.cwd()
+    args = sys.argv[1:]
+    extra_args: list[str] = []
+    if "--" in args:
+        split_index = args.index("--")
+        extra_args = args[split_index + 1 :]
+        args = args[:split_index]
+
+    title = args[0] if len(args) > 0 else "Docs update"
+    body = args[1] if len(args) > 1 else "Update README content"
+    if len(args) > 2:
+        raise SystemExit("Usage: git_control_create_pull_request.sh [title] [body] [-- <extra args>]")
     params = StdioServerParameters(
         command=sys.executable,
         args=["-m", "git_control.server"],
@@ -23,7 +34,11 @@ async def main() -> None:
             await session.initialize()
             result = await session.call_tool(
                 "create_pull_request",
-                arguments={"title": "Docs update", "body": "Update README content"},
+                arguments={
+                    "title": title,
+                    "body": body,
+                    "extra_args": extra_args or None,
+                },
             )
             print(result)
 

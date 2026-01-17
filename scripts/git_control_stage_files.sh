@@ -12,7 +12,14 @@ from mcp.client.stdio import stdio_client
 
 async def main() -> None:
     root = Path.cwd()
-    files = sys.argv[1:]
+    args = sys.argv[1:]
+    extra_args: list[str] = []
+    if "--" in args:
+        split_index = args.index("--")
+        extra_args = args[split_index + 1 :]
+        args = args[:split_index]
+
+    files = args
     if not files:
         files = ["README.md"]
     params = StdioServerParameters(
@@ -26,7 +33,7 @@ async def main() -> None:
             await session.initialize()
             result = await session.call_tool(
                 "stage_files",
-                arguments={"files": files},
+                arguments={"files": files, "extra_args": extra_args or None},
             )
             print(result)
 
