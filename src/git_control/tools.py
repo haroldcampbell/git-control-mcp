@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 from typing import Iterable
 
+logger = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
 class CommandResult:
@@ -51,6 +52,11 @@ def _resolve_repo_root(repo_path: str | None) -> Path:
         check=True,
     )
     return Path(completed.stdout.strip())
+
+def _validate_branch_name(branch: str, repo_root: Path) -> None:
+    if not branch.strip():
+        raise ValueError("branch must be non-empty")
+    _run_command(["git", "-C", str(repo_root), "check-ref-format", "--branch", branch], cwd=repo_root)
 
 
 def _format_result(result: CommandResult) -> str:
@@ -151,4 +157,29 @@ def create_pull_request(
 
     result = _run_command(args, cwd=repo_root)
     return _format_result(result)
-logger = logging.getLogger(__name__)
+
+
+def checkout_branch(branch: str, repo_path: str | None = None) -> str:
+    """Create and switch to a new branch in a git repo.
+
+    Args:
+        branch: Name of the branch to create.
+        repo_path: Optional path within the repo to target.
+    """
+    repo_root = _resolve_repo_root(repo_path)
+    _validate_branch_name(branch, repo_root)
+    result = _run_command(["git", "-C", str(repo_root), "checkout", "-b", branch], cwd=repo_root)
+    return _format_result(result)
+
+
+def push_branch(branch: str, repo_path: str | None = None) -> str:
+    """Push a branch to origin with upstream tracking.
+
+    Args:
+        branch: Name of the branch to push.
+        repo_path: Optional path within the repo to target.
+    """
+    repo_root = _resolve_repo_root(repo_path)
+    _validate_branch_name(branch, repo_root)
+    result = _run_command(["git", "-C", str(repo_root), "push", "-u", "origin", branch], cwd=repo_root)
+    return _format_result(result)

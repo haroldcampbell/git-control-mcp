@@ -1,6 +1,6 @@
 # Git Control MCP Server Test Plan
 
-This plan validates the git-control MCP server end-to-end: staging, deletion staging, committing, and PR creation.
+This plan validates the git-control MCP server end-to-end: branch creation, staging, deletion staging, committing, pushing, and PR creation.
 
 ## Run from project root
 ```
@@ -15,17 +15,24 @@ Script alternative:
 
 ## Preconditions
 - `gh` is installed and authenticated (`gh auth status`).
-- You are on a non-protected branch or a new branch.
+- You are on a base branch (example: `main`).
 - The repo has at least one file you can safely modify.
 
 ## Test plan
-1. Edit a file (example: append a line to `README.md`).
-2. Stage the change via `stage_files`.
-3. Delete a file and stage the deletion via `stage_deletions`.
-4. Commit the change via `commit_changes`.
-5. Create a PR via `create_pull_request`.
+1. Create a new branch via `checkout_branch`.
+2. Edit a file (example: append a line to `README.md`).
+3. Stage the change via `stage_files`.
+4. Delete a file and stage the deletion via `stage_deletions`.
+5. Commit the change via `commit_changes`.
+6. Push the branch via `push_branch`.
+7. Create a PR via `create_pull_request`.
 
 ## Example tool calls
+Create a branch:
+```
+checkout_branch {"branch": "feature/test-pr"}
+```
+
 Stage a file:
 ```
 stage_files {"files": ["README.md"]}
@@ -41,6 +48,11 @@ Commit changes:
 commit_changes {"message": "docs: update README"}
 ```
 
+Push branch:
+```
+push_branch {"branch": "feature/test-pr"}
+```
+
 Create a PR (explicit title/body):
 ```
 create_pull_request {"title": "Docs update", "body": "Update README content"}
@@ -52,7 +64,9 @@ create_pull_request {}
 ```
 
 ## Expected results
+- `checkout_branch` switches to the new branch.
 - `stage_files` reports the file staged.
 - `stage_deletions` reports deletions staged.
 - `commit_changes` reports a new commit SHA.
+- `push_branch` reports the push result.
 - `create_pull_request` returns a PR URL from GitHub.

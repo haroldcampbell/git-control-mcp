@@ -12,18 +12,38 @@ _LOGGING_CONFIGURED = False
 
 def configure_logging() -> None:
     global _LOGGING_CONFIGURED
-    if _LOGGING_CONFIGURED or logging.getLogger().handlers:
-        _LOGGING_CONFIGURED = True
-        return
-
     log_dir = Path.cwd() / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
     log_file = log_dir / "git-control.log"
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-        handlers=[logging.FileHandler(log_file), logging.StreamHandler()],
-    )
+    if _LOGGING_CONFIGURED:
+        return
+
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.INFO)
+    formatter = logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s")
+
+    has_file_handler = False
+    for handler in root_logger.handlers:
+        if isinstance(handler, logging.FileHandler):
+            try:
+                if Path(handler.baseFilename) == log_file:
+                    has_file_handler = True
+            except Exception:
+                continue
+
+    if not has_file_handler:
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setFormatter(formatter)
+        root_logger.addHandler(file_handler)
+
+    if not any(
+        isinstance(handler, logging.StreamHandler) and not isinstance(handler, logging.FileHandler)
+        for handler in root_logger.handlers
+    ):
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(formatter)
+        root_logger.addHandler(stream_handler)
+
     _LOGGING_CONFIGURED = True
 
 
@@ -83,6 +103,22 @@ async def create_pull_request(
         draft=draft,
     )
     logger.info("Tool create_pull_request completed.")
+    return result
+
+
+@mcp.tool()
+async def checkout_branch(branch: str, repo_path: str | None = None) -> str:
+    logger.info("Tool checkout_branch called. repo_path=%s branch=%s", repo_path, branch)
+    result = tools.checkout_branch(branch=branch, repo_path=repo_path)
+    logger.info("Tool checkout_branch completed.")
+    return result
+
+
+@mcp.tool()
+async def push_branch(branch: str, repo_path: str | None = None) -> str:
+    logger.info("Tool push_branch called. repo_path=%s branch=%s", repo_path, branch)
+    result = tools.push_branch(branch=branch, repo_path=repo_path)
+    logger.info("Tool push_branch completed.")
     return result
 
 
