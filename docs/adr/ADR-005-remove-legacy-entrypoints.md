@@ -1,20 +1,20 @@
 # ADR-005: Remove Legacy Entrypoints
 
 ## Status
-Accepted
+Deprecated
 
 ## Date
 2026-01-17
 
 ## Context
-Root-level `weather.py` shadowed the `weather` package, and `main.py` was redundant once scripts existed.
+Root-level entrypoints can shadow package modules and become redundant once scripts exist.
 
 ## Decision Drivers
 - Avoid import shadowing
 - Remove redundant entrypoints
 
 ## Decision
-Delete root-level `weather.py` and `main.py`.
+Avoid root-level entrypoints when scripts or module runners cover the use cases.
 
 ## Consequences
 - Avoids import shadowing issues.
