@@ -7,3 +7,4 @@
 - [x] S003: MCP server test example
 - [x] S004: ADR review
 - [x] S005: Git control MCP server
+- [x] S006: Git control MCP server test

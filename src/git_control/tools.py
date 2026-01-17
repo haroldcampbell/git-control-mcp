@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import logging
 from pathlib import Path
 import subprocess
 from typing import Iterable
@@ -14,13 +15,30 @@ class CommandResult:
 
 
 def _run_command(args: list[str], cwd: Path) -> CommandResult:
-    completed = subprocess.run(
-        args,
-        cwd=str(cwd),
-        capture_output=True,
-        text=True,
-        check=True,
-    )
+    logger.info("Running command: %s (cwd=%s)", " ".join(args), cwd)
+    try:
+        completed = subprocess.run(
+            args,
+            cwd=str(cwd),
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        stdout = (exc.stdout or "").strip()
+        stderr = (exc.stderr or "").strip()
+        logger.error("Command failed: %s (cwd=%s)", " ".join(args), cwd)
+        if stdout:
+            logger.error("stdout: %s", stdout)
+        if stderr:
+            logger.error("stderr: %s", stderr)
+        raise RuntimeError(
+            "Command failed.\n"
+            f"cmd: {' '.join(args)}\n"
+            f"cwd: {cwd}\n"
+            f"stdout: {stdout}\n"
+            f"stderr: {stderr}".strip()
+        ) from exc
     return CommandResult(stdout=completed.stdout.strip(), stderr=completed.stderr.strip())
 
 
@@ -117,3 +135,4 @@ def create_pull_request(
 
     result = _run_command(args, cwd=repo_root)
     return _format_result(result)
+logger = logging.getLogger(__name__)
