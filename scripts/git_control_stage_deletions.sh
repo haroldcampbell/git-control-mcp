@@ -21,7 +21,7 @@ async def main() -> None:
 
     files = args
     if not files:
-        files = ["README.md"]
+        raise SystemExit("Usage: git_control_stage_deletions.sh <paths...> [-- <extra args>]")
     params = StdioServerParameters(
         command=sys.executable,
         args=["-m", "git_control.server"],
