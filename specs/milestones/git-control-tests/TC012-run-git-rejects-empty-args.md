@@ -10,4 +10,4 @@ Ensure `run_git` requires a subcommand.
 Prevent ambiguous or unsafe invocations.
 
 ## DoD checklist
-- [ ] Calling `run_git([])` raises `ValueError`
+- [x] Calling `run_git([])` raises `ValueError`

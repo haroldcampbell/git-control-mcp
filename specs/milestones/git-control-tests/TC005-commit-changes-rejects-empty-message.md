@@ -10,4 +10,4 @@ Ensure `commit_changes` rejects blank commit messages.
 Prevent low-quality or invalid commits that could harm history.
 
 ## DoD checklist
-- [ ] Calling `commit_changes` with blank message raises `ValueError`
+- [x] Calling `commit_changes` with blank message raises `ValueError`

@@ -10,4 +10,4 @@ Validate `push_branch` pushes a local branch to the configured remote.
 Ensure safe, consistent pushes with upstream tracking.
 
 ## DoD checklist
-- [ ] Remote contains the pushed branch ref after `push_branch`
+- [x] Remote contains the pushed branch ref after `push_branch`

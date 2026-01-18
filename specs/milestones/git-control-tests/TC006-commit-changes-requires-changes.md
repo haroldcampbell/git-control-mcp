@@ -10,4 +10,4 @@ Validate `commit_changes` fails when there are no changes to commit.
 Avoid empty commits that mask the real repository state.
 
 ## DoD checklist
-- [ ] Calling `commit_changes` on a clean repo raises `RuntimeError`
+- [x] Calling `commit_changes` on a clean repo raises `RuntimeError`

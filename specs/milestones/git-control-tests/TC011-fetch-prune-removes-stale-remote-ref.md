@@ -10,5 +10,5 @@ Verify `fetch` with `prune=True` removes deleted remote refs.
 Prevent stale remote refs from persisting in local repos.
 
 ## DoD checklist
-- [ ] `origin/stale` appears after initial fetch
-- [ ] `origin/stale` disappears after `fetch(prune=True)`
+- [x] `origin/stale` appears after initial fetch
+- [x] `origin/stale` disappears after `fetch(prune=True)`

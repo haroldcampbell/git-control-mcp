@@ -10,5 +10,5 @@ Validate `create_pull_request` assembles the correct gh args with and without ti
 Ensure tool output stays compatible with GitHub CLI expectations.
 
 ## DoD checklist
-- [ ] Default invocation includes `--fill`
-- [ ] Title/body invocation uses `--title` and `--body` without `--fill`
+- [x] Default invocation includes `--fill`
+- [x] Title/body invocation uses `--title` and `--body` without `--fill`

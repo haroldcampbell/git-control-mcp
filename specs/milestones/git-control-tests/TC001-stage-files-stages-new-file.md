@@ -10,5 +10,5 @@ Verify `stage_files` stages a newly created file in a repo.
 Ensure the staging tool reliably adds files without requiring shell git.
 
 ## DoD checklist
-- [ ] `stage_files` returns a success message
-- [ ] `git diff --cached --name-only` includes the new file
+- [x] `stage_files` returns a success message
+- [x] `git diff --cached --name-only` includes the new file
