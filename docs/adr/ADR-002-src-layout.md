@@ -15,8 +15,8 @@ We want clean separation between application packages and top-level project file
 
 ## Decision
 Place Python packages under `src/`:
-- `src/weather` for MCP server code
-- `src/client` for local MCP client utilities
+- `src/git_control` for the MCP server code
+- additional packages may be added under `src/` as needed
 
 ## Consequences
 - Imports are clearer and less prone to accidental shadowing.
