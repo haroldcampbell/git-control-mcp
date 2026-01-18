@@ -16,3 +16,4 @@
 - [x] S012: Tool argument passthrough
 - [x] S013: run_git tool
 - [x] S014: Git control regression test suite
+- [x] S015: Align script defaults with git behavior

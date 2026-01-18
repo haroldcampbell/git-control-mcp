@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PYTHONPATH=src uv run python - <<'PY'
+PYTHONPATH=src uv run python - "$@" <<'PY'
 import asyncio
 import sys
 from pathlib import Path
@@ -19,9 +19,12 @@ async def main() -> None:
         extra_args = args[split_index + 1 :]
         args = args[:split_index]
 
-    message = args[0] if args else "docs: update README"
-    if len(args) > 1:
-        raise SystemExit("Usage: git_control_commit_changes.sh [message] [-- <extra args>]")
+    if not args:
+        raise SystemExit("Usage: git_control_commit_changes.sh <message> <paths...> [-- <extra args>]")
+    message = args[0]
+    files = args[1:]
+    if not files:
+        raise SystemExit("Usage: git_control_commit_changes.sh <message> <paths...> [-- <extra args>]")
     params = StdioServerParameters(
         command=sys.executable,
         args=["-m", "git_control.server"],
@@ -31,11 +34,16 @@ async def main() -> None:
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()
-            result = await session.call_tool(
+            stage_result = await session.call_tool(
+                "stage_files",
+                arguments={"files": files},
+            )
+            commit_result = await session.call_tool(
                 "commit_changes",
                 arguments={"message": message, "extra_args": extra_args or None},
             )
-            print(result)
+            print(stage_result)
+            print(commit_result)
 
 
 if __name__ == "__main__":

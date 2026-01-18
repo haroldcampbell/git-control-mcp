@@ -15,8 +15,8 @@ Stages files in the repo.
 
 Usage:
 ```
-./scripts/git_control_stage_files.sh README.md
-./scripts/git_control_stage_files.sh README.md -- --intent-to-add
+./scripts/git_control_stage_files.sh
+./scripts/git_control_stage_files.sh . -- --intent-to-add
 ```
 
 ## git_control_stage_deletions.sh
@@ -33,8 +33,8 @@ Commits staged changes.
 
 Usage:
 ```
-./scripts/git_control_commit_changes.sh "docs: update README"
-./scripts/git_control_commit_changes.sh "docs: update README" -- --signoff
+./scripts/git_control_commit_changes.sh "docs: update README" README.md
+./scripts/git_control_commit_changes.sh "docs: update README" README.md -- --signoff
 ```
 
 ## git_control_fetch.sh
