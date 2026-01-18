@@ -10,7 +10,7 @@ PYTHONPATH=src uv run python -m git_control.server
 
 Script alternative:
 ```
-./scripts/run_git_control_server.sh
+./scripts/run_server.sh
 ```
 
 ## Tools
