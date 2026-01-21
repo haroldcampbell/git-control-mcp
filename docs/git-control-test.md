@@ -34,6 +34,11 @@ Run a git command:
 run_git {"args": ["status", "-sb"]}
 ```
 
+Run git worktree via run_git (no absolute-path enforcement):
+```
+run_git {"args": ["worktree", "list"]}
+```
+
 Fetch latest changes:
 ```
 fetch {}
@@ -47,6 +52,11 @@ fetch {"prune": true, "extra_args": ["--tags"]}
 Create a branch:
 ```
 checkout_branch {"branch": "feature/test-pr", "start_point": "origin/main"}
+```
+
+Add a worktree (absolute path required):
+```
+worktree {"args": ["add", "/tmp/git-control-worktree"]}
 ```
 
 Stage a file:

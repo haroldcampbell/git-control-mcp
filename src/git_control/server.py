@@ -119,6 +119,14 @@ async def run_git(args: list[str], repo_path: str | None = None) -> str:
 
 
 @mcp.tool()
+async def worktree(args: list[str], repo_path: str | None = None) -> str:
+    logger.info("Tool worktree called. repo_path=%s args=%s", repo_path, args)
+    result = tools.worktree(args=args, repo_path=repo_path)
+    logger.info("Tool worktree completed.")
+    return result
+
+
+@mcp.tool()
 async def create_pull_request(
     repo_path: str | None = None,
     base: str | None = None,

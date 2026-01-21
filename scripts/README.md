@@ -121,3 +121,14 @@ Usage:
 ```
 ./scripts/git_control_run_git.sh status -sb
 ```
+
+## git_control_worktree.sh
+
+Runs git worktree subcommands with absolute-path enforcement for worktree paths.
+
+Usage:
+
+```
+./scripts/git_control_worktree.sh list
+./scripts/git_control_worktree.sh add /absolute/path/to/worktree
+```

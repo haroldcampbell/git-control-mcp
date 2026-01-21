@@ -17,3 +17,5 @@
 - [x] S013: run_git tool
 - [x] S014: Git control regression test suite
 - [x] S015: Align script defaults with git behavior
+- [x] S016: Dedicated worktree tool with absolute paths
+- [x] S017: Allow worktree via run_git
