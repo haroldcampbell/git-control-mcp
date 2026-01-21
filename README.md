@@ -42,7 +42,7 @@ From the project root:
 
 ```
 uv sync
-uv run pytest
+UV_CACHE_DIR=/tmp/uv-cache uv run pytest
 ```
 
 ## Codex CLI

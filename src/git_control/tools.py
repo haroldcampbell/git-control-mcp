@@ -37,6 +37,7 @@ _ALLOWED_RUN_GIT_SUBCOMMANDS = {
     "stash",
     "switch",
     "tag",
+    "worktree",
 }
 
 _DESTRUCTIVE_RUN_GIT_SUBCOMMANDS = {
@@ -51,6 +52,33 @@ _DESTRUCTIVE_RUN_GIT_SUBCOMMANDS = {
 _DESTRUCTIVE_WARNING = (
     "WARNING: Destructive operation requested. Ensure you have backups or commits before proceeding."
 )
+
+_WORKTREE_SUBCOMMANDS = {
+    "add",
+    "list",
+    "lock",
+    "move",
+    "prune",
+    "remove",
+    "repair",
+    "unlock",
+}
+
+_WORKTREE_PATH_SUBCOMMANDS = {
+    "add",
+    "lock",
+    "remove",
+    "unlock",
+}
+
+_WORKTREE_OPTIONAL_PATH_SUBCOMMANDS = {
+    "repair",
+}
+
+_WORKTREE_OPTIONS_WITH_VALUES = {
+    "add": {"-b", "-B"},
+    "lock": {"-r", "--reason"},
+}
 
 @dataclass(frozen=True)
 class CommandResult:
@@ -342,3 +370,73 @@ def run_git(
     if subcommand in _DESTRUCTIVE_RUN_GIT_SUBCOMMANDS:
         return f"{_DESTRUCTIVE_WARNING}\n{output}".strip()
     return output
+
+
+def _collect_worktree_positional_args(subcommand: str, args: Sequence[str]) -> list[str]:
+    options_with_values = _WORKTREE_OPTIONS_WITH_VALUES.get(subcommand, set())
+    positional: list[str] = []
+    i = 0
+    while i < len(args):
+        arg = str(args[i])
+        if arg == "--":
+            positional.extend(str(value) for value in args[i + 1 :])
+            break
+        if arg.startswith("-"):
+            if arg in options_with_values:
+                i += 2
+                continue
+            if any(arg.startswith(f"{opt}=") for opt in options_with_values):
+                i += 1
+                continue
+            i += 1
+            continue
+        positional.append(arg)
+        i += 1
+    return positional
+
+
+def _extract_worktree_paths(subcommand: str, args: Sequence[str]) -> list[str]:
+    positional = _collect_worktree_positional_args(subcommand, args)
+    if subcommand in _WORKTREE_PATH_SUBCOMMANDS:
+        if not positional:
+            raise ValueError(f"worktree {subcommand} requires an absolute path argument")
+        return [positional[0]]
+    if subcommand == "move":
+        if len(positional) < 2:
+            raise ValueError("worktree move requires two absolute path arguments")
+        return positional[:2]
+    if subcommand in _WORKTREE_OPTIONAL_PATH_SUBCOMMANDS:
+        return positional[:1]
+    return []
+
+
+def _validate_absolute_paths(paths: Sequence[str]) -> None:
+    for path in paths:
+        if not Path(path).is_absolute():
+            raise ValueError("worktree paths must be absolute")
+
+
+def worktree(
+    args: Sequence[str],
+    repo_path: str | None = None,
+) -> str:
+    """Run git worktree with absolute path enforcement for worktree paths.
+
+    Args:
+        args: Worktree arguments starting with the subcommand (e.g., ["add", "/abs/path"]).
+        repo_path: Optional path within the repo to target.
+    """
+    if not args:
+        raise ValueError("args must include a worktree subcommand")
+
+    subcommand = str(args[0])
+    if subcommand not in _WORKTREE_SUBCOMMANDS:
+        allowed = ", ".join(sorted(_WORKTREE_SUBCOMMANDS))
+        raise ValueError(f"Worktree subcommand '{subcommand}' is not allowed. Allowed: {allowed}")
+
+    paths = _extract_worktree_paths(subcommand, args[1:])
+    _validate_absolute_paths(paths)
+
+    repo_root = _resolve_repo_root(repo_path)
+    result = _run_command(["git", "-C", str(repo_root), "worktree", *[str(arg) for arg in args]], cwd=repo_root)
+    return _format_result(result)

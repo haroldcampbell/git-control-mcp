@@ -160,12 +160,44 @@ def test_run_git_rejects_disallowed_subcommand() -> None:
         tools.run_git(["clone", "https://example.com/repo.git"])
 
 
+def test_run_git_allows_worktree(tmp_path: Path) -> None:
+    repo = init_repo(tmp_path / "repo")
+    output = tools.run_git(["worktree", "list", "--porcelain"], repo_path=str(repo))
+
+    assert "worktree" in output or output == ""
+
+
 def test_run_git_adds_destructive_warning(tmp_path: Path) -> None:
     repo = init_repo(tmp_path / "repo")
     commit_file(repo, "file.txt", "data", "initial")
     warning = tools.run_git(["reset", "--hard", "HEAD"], repo_path=str(repo))
 
     assert warning.startswith(tools._DESTRUCTIVE_WARNING)
+
+
+def test_worktree_requires_args() -> None:
+    with pytest.raises(ValueError):
+        tools.worktree([])
+
+
+def test_worktree_rejects_relative_path_for_add(tmp_path: Path) -> None:
+    repo = init_repo(tmp_path / "repo")
+    commit_file(repo, "file.txt", "data", "initial")
+
+    with pytest.raises(ValueError):
+        tools.worktree(["add", "relative-path"], repo_path=str(repo))
+
+
+def test_worktree_adds_worktree_with_absolute_path(tmp_path: Path) -> None:
+    repo = init_repo(tmp_path / "repo")
+    commit_file(repo, "file.txt", "data", "initial")
+    worktree_path = tmp_path / "worktree"
+
+    tools.worktree(["add", str(worktree_path)], repo_path=str(repo))
+
+    assert worktree_path.exists()
+    entries = run_git(repo, "worktree", "list", "--porcelain").stdout
+    assert str(worktree_path) in entries
 
 
 def test_create_pull_request_validates_title_body_pairing(tmp_path: Path) -> None:

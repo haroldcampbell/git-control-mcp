@@ -26,7 +26,23 @@ Arguments:
 Allowed subcommands:
 `add`, `branch`, `checkout`, `cherry-pick`, `clean`, `commit`, `config`, `diff`, `fetch`, `grep`,
 `log`, `merge`, `mv`, `pull`, `push`, `rebase`, `reflog`, `remote`, `reset`, `restore`,
-`rev-parse`, `rm`, `show`, `status`, `stash`, `switch`, `tag`
+`rev-parse`, `rm`, `show`, `status`, `stash`, `switch`, `tag`, `worktree`
+
+Notes:
+- `run_git` does not enforce absolute paths for worktree arguments.
+
+### worktree
+Runs git worktree subcommands with absolute-path enforcement for worktree path arguments.
+
+Arguments:
+- `args`: list of worktree arguments, starting with the subcommand (example: `["add", "/abs/path"]`)
+- `repo_path`: optional path within the repo to infer the git root
+
+Allowed subcommands:
+`add`, `list`, `lock`, `move`, `prune`, `remove`, `repair`, `unlock`
+
+Notes:
+- Worktree path arguments must be absolute.
 
 ### stage_files
 Stages a list of files in the target repo.
