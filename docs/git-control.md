@@ -25,7 +25,7 @@ Arguments:
 
 Allowed subcommands:
 `add`, `branch`, `checkout`, `cherry-pick`, `clean`, `commit`, `config`, `diff`, `fetch`, `grep`,
-`log`, `merge`, `mv`, `pull`, `push`, `rebase`, `reflog`, `remote`, `reset`, `restore`,
+`init`, `log`, `merge`, `mv`, `pull`, `push`, `rebase`, `reflog`, `remote`, `reset`, `restore`,
 `rev-parse`, `rm`, `show`, `status`, `stash`, `switch`, `tag`, `worktree`
 
 Notes:
