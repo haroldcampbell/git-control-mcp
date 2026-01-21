@@ -20,6 +20,7 @@ _ALLOWED_RUN_GIT_SUBCOMMANDS = {
     "diff",
     "fetch",
     "grep",
+    "init",
     "log",
     "merge",
     "mv",
