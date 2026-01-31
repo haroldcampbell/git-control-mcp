@@ -52,3 +52,7 @@ See `docs/codex-cli.md` for MCP registration and verification steps.
 ## MCP test example
 
 See `docs/git-control-test.md` for git-control verification steps.
+
+## Packaging
+
+See `docs/packaging.md` for PyInstaller build steps.
