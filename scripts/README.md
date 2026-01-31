@@ -132,3 +132,16 @@ Usage:
 ./scripts/git_control_worktree.sh list
 ./scripts/git_control_worktree.sh add /absolute/path/to/worktree
 ```
+
+## build_dist_onedir.sh
+
+Builds an onedir PyInstaller bundle for faster startup.
+
+Usage:
+
+```
+./scripts/build_dist_onedir.sh
+```
+
+Notes:
+Set `DIST_PATH=/absolute/path/to/dist` to override the output directory.
