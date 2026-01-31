@@ -1,5 +1,6 @@
 """FastMCP server wiring for git control."""
 import logging
+from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
 from mcp.server.fastmcp import FastMCP
@@ -24,7 +25,7 @@ def configure_logging() -> None:
 
     has_file_handler = False
     for handler in root_logger.handlers:
-        if isinstance(handler, logging.FileHandler):
+        if isinstance(handler, (TimedRotatingFileHandler, logging.FileHandler)):
             try:
                 if Path(handler.baseFilename) == log_file:
                     has_file_handler = True
@@ -32,7 +33,12 @@ def configure_logging() -> None:
                 continue
 
     if not has_file_handler:
-        file_handler = logging.FileHandler(log_file)
+        file_handler = TimedRotatingFileHandler(
+            log_file,
+            when="midnight",
+            interval=1,
+            backupCount=5,
+        )
         file_handler.setFormatter(formatter)
         root_logger.addHandler(file_handler)
 

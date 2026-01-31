@@ -20,3 +20,4 @@
 - [x] S016: Dedicated worktree tool with absolute paths
 - [x] S017: Allow worktree via run_git
 - [ ] S018: Onedir PyInstaller packaging
+- [ ] S019: Daily log rotation

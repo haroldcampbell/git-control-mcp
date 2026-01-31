@@ -13,6 +13,13 @@ Script alternative:
 ./scripts/run_server.sh
 ```
 
+## Logging
+
+Logs are written to `logs/git-control.log` and rotate daily with 5 backups retained.
+
+Validation note:
+- Set the system date or wait overnight to trigger rotation, then confirm a rotated file like `logs/git-control.log.2026-01-31` appears.
+
 ## Tools
 ### run_git
 Runs an allowlisted git subcommand with arguments.
