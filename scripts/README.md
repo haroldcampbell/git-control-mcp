@@ -122,6 +122,17 @@ Usage:
 ./scripts/git_control_run_git.sh status -sb
 ```
 
+## git_control_apply.sh
+
+Runs `git apply` with caller-provided arguments.
+
+Usage:
+
+```
+./scripts/git_control_apply.sh --check change.patch
+./scripts/git_control_apply.sh change.patch
+```
+
 ## git_control_worktree.sh
 
 Runs git worktree subcommands with absolute-path enforcement for worktree paths.

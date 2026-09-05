@@ -31,12 +31,19 @@ Arguments:
 - `repo_path`: optional path within the repo to infer the git root
 
 Allowed subcommands:
-`add`, `branch`, `checkout`, `cherry-pick`, `clean`, `commit`, `config`, `diff`, `fetch`, `grep`,
+`add`, `apply`, `branch`, `checkout`, `cherry-pick`, `clean`, `commit`, `config`, `diff`, `fetch`, `grep`,
 `init`, `log`, `merge`, `mv`, `pull`, `push`, `rebase`, `reflog`, `remote`, `reset`, `restore`,
 `rev-parse`, `rm`, `show`, `status`, `stash`, `switch`, `tag`, `worktree`
 
 Notes:
 - `run_git` does not enforce absolute paths for worktree arguments.
+
+### apply
+Runs `git apply` with caller-provided arguments.
+
+Arguments:
+- `args`: list of `git apply` arguments (example: `["--check", "change.patch"]`)
+- `repo_path`: optional path within the repo to infer the git root
 
 ### worktree
 Runs git worktree subcommands with absolute-path enforcement for worktree path arguments.

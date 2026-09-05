@@ -160,6 +160,19 @@ def test_run_git_rejects_disallowed_subcommand() -> None:
         tools.run_git(["clone", "https://example.com/repo.git"])
 
 
+def test_run_git_allows_apply(tmp_path: Path) -> None:
+    repo = init_repo(tmp_path / "repo")
+    commit_file(repo, "file.txt", "before\n", "initial")
+    (repo / "file.txt").write_text("after\n", encoding="utf-8")
+    patch = run_git(repo, "diff", "--", "file.txt").stdout
+    (repo / "change.patch").write_text(patch, encoding="utf-8")
+    run_git(repo, "checkout", "--", "file.txt")
+
+    output = tools.run_git(["apply", "--check", "change.patch"], repo_path=str(repo))
+
+    assert output == ""
+
+
 def test_run_git_allows_worktree(tmp_path: Path) -> None:
     repo = init_repo(tmp_path / "repo")
     output = tools.run_git(["worktree", "list", "--porcelain"], repo_path=str(repo))
@@ -173,6 +186,25 @@ def test_run_git_adds_destructive_warning(tmp_path: Path) -> None:
     warning = tools.run_git(["reset", "--hard", "HEAD"], repo_path=str(repo))
 
     assert warning.startswith(tools._DESTRUCTIVE_WARNING)
+
+
+def test_apply_requires_args() -> None:
+    with pytest.raises(ValueError):
+        tools.apply([])
+
+
+def test_apply_applies_patch(tmp_path: Path) -> None:
+    repo = init_repo(tmp_path / "repo")
+    commit_file(repo, "file.txt", "before\n", "initial")
+    (repo / "file.txt").write_text("after\n", encoding="utf-8")
+    patch = run_git(repo, "diff", "--", "file.txt").stdout
+    (repo / "change.patch").write_text(patch, encoding="utf-8")
+    run_git(repo, "checkout", "--", "file.txt")
+
+    result = tools.apply(["change.patch"], repo_path=str(repo))
+
+    assert result == "Patch applied."
+    assert (repo / "file.txt").read_text(encoding="utf-8") == "after\n"
 
 
 def test_worktree_requires_args() -> None:

@@ -21,3 +21,4 @@
 - [x] S017: Allow worktree via run_git
 - [x] S018: Onedir PyInstaller packaging
 - [x] S019: Daily log rotation
+- [x] S020: Dedicated apply tool

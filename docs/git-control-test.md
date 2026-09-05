@@ -39,6 +39,11 @@ Run git worktree via run_git (no absolute-path enforcement):
 run_git {"args": ["worktree", "list"]}
 ```
 
+Check a patch with git apply via run_git:
+```
+run_git {"args": ["apply", "--check", "change.patch"]}
+```
+
 Fetch latest changes:
 ```
 fetch {}
@@ -57,6 +62,11 @@ checkout_branch {"branch": "feature/test-pr", "start_point": "origin/main"}
 Add a worktree (absolute path required):
 ```
 worktree {"args": ["add", "/tmp/git-control-worktree"]}
+```
+
+Apply a patch:
+```
+apply {"args": ["change.patch"]}
 ```
 
 Stage a file:
@@ -91,6 +101,7 @@ create_pull_request {}
 
 ## Expected results
 - `fetch` reports remote updates or completes with no changes.
+- `apply` applies the patch or reports git apply validation errors.
 - `checkout_branch` switches to the new branch.
 - `stage_files` reports the file staged.
 - `stage_deletions` reports deletions staged.

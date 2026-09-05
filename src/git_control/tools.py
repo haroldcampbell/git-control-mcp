@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 _ALLOWED_RUN_GIT_SUBCOMMANDS = {
     "add",
+    "apply",
     "branch",
     "checkout",
     "cherry-pick",
@@ -371,6 +372,24 @@ def run_git(
     if subcommand in _DESTRUCTIVE_RUN_GIT_SUBCOMMANDS:
         return f"{_DESTRUCTIVE_WARNING}\n{output}".strip()
     return output
+
+
+def apply(
+    args: Sequence[str],
+    repo_path: str | None = None,
+) -> str:
+    """Run git apply with arguments.
+
+    Args:
+        args: Git apply arguments (e.g., ["--check", "change.patch"]).
+        repo_path: Optional path within the repo to target.
+    """
+    if not args:
+        raise ValueError("args must include at least one git apply argument")
+
+    repo_root = _resolve_repo_root(repo_path)
+    result = _run_command(["git", "-C", str(repo_root), "apply", *[str(arg) for arg in args]], cwd=repo_root)
+    return _format_result(result) or "Patch applied."
 
 
 def _collect_worktree_positional_args(subcommand: str, args: Sequence[str]) -> list[str]:
